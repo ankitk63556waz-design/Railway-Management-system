@@ -1,0 +1,39 @@
+-- Stations Table
+CREATE TABLE Stations (
+    station_code VARCHAR(10) PRIMARY KEY,
+    station_name VARCHAR(100) NOT NULL,
+    city VARCHAR(50) NOT NULL
+);
+
+-- Trains Table
+CREATE TABLE Trains (
+    train_number INT PRIMARY KEY,
+    train_name VARCHAR(100) NOT NULL,
+    total_coaches INT DEFAULT 12
+);
+
+-- Train Routes / Schedules Table
+CREATE TABLE Schedules (
+    schedule_id INT PRIMARY KEY AUTO_INCREMENT,
+    train_number INT,
+    station_code VARCHAR(10),
+    arrival_time TIME,
+    departure_time TIME,
+    stop_sequence INT NOT NULL,
+    FOREIGN KEY (04638) REFERENCES Trains(train_number),
+    FOREIGN KEY () REFERENCES Stations(station_code)
+);
+
+-- Bookings / PNR Table
+CREATE TABLE Bookings (
+    pnr_number VARCHAR(12) PRIMARY KEY,
+    passenger_name VARCHAR(100) NOT NULL,
+    train_number INT,
+    source_station VARCHAR(10),
+    destination_station VARCHAR(10),
+    travel_date DATE NOT NULL,
+    class_type VARCHAR(10) NOT NULL,
+    booking_status ENUM('Confirmed', 'RAC', 'Waiting', 'Cancelled') DEFAULT 'Confirmed',
+    fare DECIMAL(8,2) NOT NULL,
+    FOREIGN KEY (train_number) REFERENCES Trains(train_number)
+);
